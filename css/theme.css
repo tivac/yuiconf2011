@@ -1,54 +1,55 @@
-html { background-color: black; }
-body { background-color: white; }
-/* A section is a slide. It's size is 800x600, and this will never change */
+html { 
+    background: url(../img/black-linen.png); 
+    color: #F6F3E8; 
+    
+}
+
 section {
-  /* The font from Google */
-  font-family: 'ChunkFiveRegular', arial, serif;
-  font-size: 40px;
+    font-family: DejaWeb, Calibri, sans-serif;
+    font-size: 40px;
 }
-h1, h2 {
-margin-top: 200px;
-text-align: center;
-font-size: 80px;
-}
+
+h1, 
+h2,
 h3 {
-margin: 100px 0 50px 100px;
+    margin-top: 100px;
+    text-align: center;
+    font-size: 80px;
+    font-weight: bold;
+    color: #F3F6EE;
+}
+h3 { font-size: 50px; font-weight: normal; }
+
+p { margin: 80px 0 50px 100px; }
+ol, ul { margin: 50px 100px; }
+
+a,
+a:visited,
+a:active { color: #8AC6F2; }
+
+/* full screen images */
+img {
+    width: 800px;
+    height: 600px;
+    position: absolute;
+    top: 0;
+    background-color: #000;
+    z-index: -1;
 }
 
-ul {
-  margin: 50px 200px;
-}
-
-q {
-display: inline-block;
-width: 700px;
-height: 600px;
-background-color: black;
-color: white;
-font-size: 60px;
-padding: 50px;
-}
-
-img, video {
-width: 800px;
-height: 600px;
-position: absolute;
-top: 0;
-background-color: black;
-z-index: -1;
-}
-
+aside,
 footer {
-position: absolute;
-bottom: 10px;
-right: 20px;
+    font-size: 35px;
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
 }
+
+aside { color: #CAE682 }
+footer { color: #99968B; }
+
 
 /* Transition effect */
-/* Feel free to change the transition effect for original
- animations. See here:
- https://developer.mozilla.org/en/CSS/CSS_transitions
- How to use CSS3 Transitions: */
 section {
   -moz-transition: left 400ms linear 0s;
   -webkit-transition: left 400ms linear 0s;
@@ -57,11 +58,17 @@ section {
 }
 
 /* Before */
-section { left: -150%; }
+section { 
+    left: -150%; 
+}
 /* Now */
-section[aria-selected] { left: 0; }
+section[aria-selected] { 
+    left: 0; 
+}
 /* After */
-section[aria-selected] ~ section { left: +150%; }
+section[aria-selected] ~ section { 
+    left: +150%; 
+}
 
 /* Incremental elements */
 
