@@ -1,0 +1,42 @@
+@font-face {
+    font-family: 'BebasNeueRegular';
+    src: url('../font/Bebas Neue/BebasNeue-webfont.eot');
+    src: url('../font/Bebas Neue/BebasNeue-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../font/Bebas Neue/BebasNeue-webfont.woff') format('woff'),
+         url('../font/Bebas Neue/BebasNeue-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MuseoSans500';
+    src: url('../font/Museo Sans/MuseoSans-500-webfont.eot');
+    src: url('../font/Museo Sans/MuseoSans-500-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../font/Museo Sans/MuseoSans-500-webfont.woff') format('woff'),
+         url('../font/Museo Sans/MuseoSans-500-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'DejaWeb';
+    src: url('../font/Deja Web/dejaweb-webfont.eot');
+    src: url('../font/Deja Web/dejaweb-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../font/Deja Web/dejaweb-webfont.woff') format('woff'),
+         url('../font/Deja Web/dejaweb-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'DejaWeb';
+    src: url('dejaweb-bold-webfont.eot');
+    src: url('../font/Deja Web/dejaweb-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../font/Deja Web/dejaweb-bold-webfont.woff') format('woff'),
+         url('../font/Deja Web/dejaweb-bold-webfont.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+
+}
