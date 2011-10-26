@@ -23,6 +23,16 @@ h3 { font-size: 50px; font-weight: normal; }
 p { margin: 80px 0 50px 100px; }
 ol, ul { margin: 50px 100px; }
 
+/* code */
+.code h3 { margin-top: 20px; }
+.prettyprint { text-align: left; font-family: Consolas; font-size: 35px; }
+.code.overrun-r .prettyprint { padding-right: 0; }
+.code.overrun-l .prettyprint { padding-left: 0; }
+.code.tiny .prettyprint { font-size: 20px; }
+
+/* general ludicrousness */
+.happycat { background: url(../img/happycat.gif) no-repeat; }
+
 a,
 a:visited,
 a:active { color: #8AC6F2; }
@@ -45,7 +55,7 @@ footer {
     right: 20px;
 }
 
-aside { color: #CAE682 }
+aside { color: #A0A8B0; }
 footer { color: #99968B; }
 
 

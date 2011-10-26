@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="css/core.css" />
 <link rel="stylesheet" href="css/fonts.css" />
 <link rel="stylesheet" href="css/theme.css" />
-
+<link rel="stylesheet" href="css/prettify.css" />
 
 <section>
     <h1>Automating Website Optimizations</h1>
@@ -60,12 +60,58 @@
 
 <section>
     <h2>Easy optimizations</h2>
-    <ul>
-        <li>JS Minifying</li>
-        <li>CSS Minifying</li>
-        <li>String replacement</li>
-        <li>File concatenation</li>
-    </ul>
+</section>
+
+<section class="code">
+    <h3>JS Minification</h3>
+    <pre class="prettyprint">
+&lt;yuicompressor&gt;
+    &lt;fileset
+        dir="."
+        includes="**/*.js"
+    /&gt;
+&lt;/yuicompressor&gt;
+    </pre>
+</section>
+
+<section class="code">
+    <h3>CSS Minification</h3>
+    <pre class="prettyprint">
+&lt;yuicompressor 
+    options="--type=css">
+    &lt;fileset 
+        dir="." 
+        includes="**/*.css" 
+    />
+&lt;/yuicompressor>
+    </pre>
+</section>
+
+<section class="code">
+    <h3>File Cleanup</h3>
+    <pre class="prettyprint">
+&lt;replaceregexp flags="gs">
+    &lt;fileset
+        dir="."
+        includes="**/*.js"
+    />
+    &lt;regexp pattern="@VERSION@" />
+    &lt;substitution expression="" />
+&lt;/replaceregexp>
+    </pre>
+</section>
+
+<section class="code">
+    <h3>Concatenating Files</h3>
+    <pre class="prettyprint">
+&lt;concat destfile="out.js">
+    &lt;fileset file="in.js" />
+    &lt;fileset
+        dir="js"
+        includes="**/*.js"
+    />
+&lt;/concat>
+    </pre>
 </section>
 
 <section>
@@ -76,12 +122,108 @@
 
 <section>
     <h2>Reaching further</h2>
+    <!--
     <ul>
         <li>Cache-busting</li>
         <li>Removing debugging statements</li>
         <li>CDN-ifying relative URLs</li>
         <li>Faking out ifdefs</li>
     </ul>
+    -->
+</section>
+
+<section class="code">
+    <h3>Cache-busting</h3>
+    <pre class="prettyprint">
+&lt;rename-files
+    include="**/*.css"
+    mapping="css.mapping"
+/>
+    </pre>
+    <aside>Needs set up though</aside>
+</section>
+
+<section>
+    <h2>Cache-busting result</h2>
+    <h3>
+        file.css &nbsp;&rarr;&nbsp; file.123456.css
+    </h3>
+</section>
+
+<section class="code overrun-r">
+    <h3>Remove debugging code</h3>
+    <pre class="prettyprint">
+&lt;replaceregexp flags="mg">
+  &lt;regexp 
+    pattern='^(.*?(?:Y.log|console.log|Y
+  &lt;fileset
+    dir="."
+    includes="**/*.js,**/*.html"
+  />
+  &lt;substitution 
+    expression='\/\*\0\*\/' />
+&lt;/replaceregexp>
+    </pre>
+</section>
+
+<section class="code overrun-l overrun-r">
+    <h3>Remove debugging code (cont)</h3>
+    <pre class="prettyprint">
+
+
+AHOO.log).*?(?:;|\).*;|(?:\r?\n.*?)*?\).
+    </pre>
+</section>
+
+<section class="code overrun-l">
+    <h3>Remove debugging code (still cont)</h3>
+    <pre class="prettyprint">
+
+
+*;).*;?.*?\r?\n)' 
+    </pre>
+    <aside>Regular expressions, lol.</aside>
+</section>
+
+<section>
+    <h3>Converting relative URLs to CDN-prefixed absolute URLs</h3>
+    <p>Way too many regexes to show here!</p>
+    <p>See it on <a href="https://github.com/tivac/web-build/blob/master/cdn.xml">GitHub</a></p>
+</section>
+
+<section class="code tiny">
+    <pre class="prettyprint">
+&lt;property name="base">((?:\.\.\/)+|\/)([^"']+?)?&lt;/property>
+&lt;property name="js.suffix">(js)&lt;/property>
+&lt;property name="img.suffix">(jpg|png|gif)&lt;/property>
+&lt;property name="font.suffix">(svg|eot|woff|ttf|svgz)&lt;/property>
+&lt;property name="js.yui">(base[^:]?:[^"']?["'])${base}&lt;/property>
+&lt;property name="js.src">(script[^>]src[^=]?=[^"']?["'])${base}${js.suffix}&lt;/property>
+&lt;property name="js.js" >(["'])${base}${js.suffix}&lt;/property>
+&lt;property name="css" >(href=["'])${base}(css)&lt;/property>
+&lt;property name="img.css">(url\(["']?)${base}${img.suffix}\)&lt;/property>
+&lt;property name="img.src">(img[^>]src[^=]?=[^"']?["'])${base}${img.suffix}&lt;/property>
+&lt;property name="img.js" >(["'])${base}${img.suffix}&lt;/property>
+&lt;property name="font">(url\(["']?)${base}${font.suffix}&lt;/property>
+&lt;property name="swf">(["'])${base}(swf)&lt;/property>
+    </pre>
+    <aside>Had to try it</aside>
+</section>
+
+<section>
+    <h2>ifdefs would be nice</h2>
+    <h3>We can do that</h3>
+</section>
+
+<section class="code happycat">
+    <pre class="prettyprint">
+/* live
+var fooga = "oh god how did this get here I am not good with computers";
+ /live */
+/* dev */
+var fooga = "";
+/* /dev */
+    </pre>
 </section>
 
 <section>
@@ -141,3 +283,8 @@
 
 <script src="js/util.js"></script>
 <script src="js/dz.js"></script>
+<script src="google-code-prettify/prettify.js"></script>
+<script>
+    //debugger;
+    prettyPrint();
+</script>
