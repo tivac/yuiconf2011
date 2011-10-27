@@ -19,7 +19,7 @@
 
 <section>
     <h2>Robots only love 3 things</h2>
-    <ol class="incremental">
+    <ol>
         <li>Repeating the same actions forever</li>
         <li>Copying and pasting</li>
         <li>Stealing old people's medicine</li>
@@ -65,13 +65,12 @@
 <section class="code">
     <h3>JS Minification</h3>
     <pre class="prettyprint">
-&lt;yuicompressor&gt;
+&lt;yuicompressor>
     &lt;fileset
         dir="."
         includes="**/*.js"
-    /&gt;
-&lt;/yuicompressor&gt;
-    </pre>
+    />
+&lt;/yuicompressor></pre>
 </section>
 
 <section class="code">
@@ -83,8 +82,7 @@
         dir="." 
         includes="**/*.css" 
     />
-&lt;/yuicompressor>
-    </pre>
+&lt;/yuicompressor></pre>
 </section>
 
 <section class="code">
@@ -97,8 +95,7 @@
     />
     &lt;regexp pattern="@VERSION@" />
     &lt;substitution expression="" />
-&lt;/replaceregexp>
-    </pre>
+&lt;/replaceregexp></pre>
 </section>
 
 <section class="code">
@@ -110,8 +107,7 @@
         dir="js"
         includes="**/*.js"
     />
-&lt;/concat>
-    </pre>
+&lt;/concat></pre>
 </section>
 
 <section>
@@ -121,15 +117,7 @@
 </section>
 
 <section>
-    <h2>Reaching further</h2>
-    <!--
-    <ul>
-        <li>Cache-busting</li>
-        <li>Removing debugging statements</li>
-        <li>CDN-ifying relative URLs</li>
-        <li>Faking out ifdefs</li>
-    </ul>
-    -->
+    <h2>Push it further</h2>
 </section>
 
 <section class="code">
@@ -138,16 +126,15 @@
 &lt;rename-files
     include="**/*.css"
     mapping="css.mapping"
-/>
-    </pre>
+/></pre>
     <aside>Needs set up though</aside>
 </section>
 
 <section>
     <h2>Cache-busting result</h2>
-    <h3>
-        file.css &nbsp;&rarr;&nbsp; file.123456.css
-    </h3>
+    <pre>file.css</pre>
+    <h3>becomes</h3>
+    <pre>file.123456.css</pre>
 </section>
 
 <section class="code overrun-r">
@@ -156,42 +143,42 @@
 &lt;replaceregexp flags="mg">
   &lt;regexp 
     pattern='^(.*?(?:Y.log|console.log|Y
+    <span class="hide">'></span></pre>
+</section>
+
+<section class="code overrun-l overrun-r">
+    <pre class="prettyprint">
+
+<span class="nocode">
+AHOO.log).*?(?:;|\).*;|(?:\r?\n.*?)*?\).
+</span></pre>
+</section>
+
+<section class="code overrun-l">
+    <pre class="prettyprint">
+
+<span class="nocode">
+*;).*;?.*?\r?\n)'</span>
   &lt;fileset
     dir="."
     includes="**/*.js,**/*.html"
   />
   &lt;substitution 
     expression='\/\*\0\*\/' />
-&lt;/replaceregexp>
-    </pre>
+&lt;/replaceregexp></pre>
 </section>
 
-<section class="code overrun-l overrun-r">
-    <h3>Remove debugging code (cont)</h3>
-    <pre class="prettyprint">
-
-
-AHOO.log).*?(?:;|\).*;|(?:\r?\n.*?)*?\).
-    </pre>
-</section>
-
-<section class="code overrun-l">
-    <h3>Remove debugging code (still cont)</h3>
-    <pre class="prettyprint">
-
-
-*;).*;?.*?\r?\n)' 
-    </pre>
-    <aside>Regular expressions, lol.</aside>
+<section>
+    <h2>Regular Expressions, everybody.</h2>
+    <aside>LOLOLOLOLOLOL</aside>
 </section>
 
 <section>
     <h3>Converting relative URLs to CDN-prefixed absolute URLs</h3>
-    <p>Way too many regexes to show here!</p>
-    <p>See it on <a href="https://github.com/tivac/web-build/blob/master/cdn.xml">GitHub</a></p>
+    <h3>Way too many regexes,<br /> so see it on <a href="https://github.com/tivac/web-build/blob/master/cdn.xml">GitHub</a></p>
 </section>
 
-<section class="code tiny">
+<section class="code tiny nowrap codewall">
     <pre class="prettyprint">
 &lt;property name="base">((?:\.\.\/)+|\/)([^"']+?)?&lt;/property>
 &lt;property name="js.suffix">(js)&lt;/property>
@@ -206,7 +193,30 @@ AHOO.log).*?(?:;|\).*;|(?:\r?\n.*?)*?\).
 &lt;property name="img.js" >(["'])${base}${img.suffix}&lt;/property>
 &lt;property name="font">(url\(["']?)${base}${font.suffix}&lt;/property>
 &lt;property name="swf">(["'])${base}(swf)&lt;/property>
-    </pre>
+&lt;macrodef name="cdn-replace">
+    &lt;attribute name="files" />
+    &lt;attribute name="regex" />
+    &lt;attribute name="sub" />
+    &lt;sequential>
+        &lt;replaceregexp flags="gi">
+            &lt;fileset dir="${dir.app.temp}" includes="@{files}" excludes="${filter.binary}" />
+            &lt;regexp pattern="@{regex}" />
+            &lt;substitution expression="@{sub}" />
+        &lt;/replaceregexp>
+    &lt;/sequential>
+&lt;/macrodef>
+&lt;target name="-cdn.mode.check" if="build.mode">
+    &lt;condition property="cdn.base" value="${cdn.base.live}">
+        &lt;and>
+            &lt;isset property="cdn.base.live" />
+            &lt;equals
+                arg1="${build.mode}"
+                arg2="live"
+                trim="true"
+                casesensitive="false"
+            />
+        &lt;/and>
+    &lt;/condition></pre>
     <aside>Had to try it</aside>
 </section>
 
@@ -217,25 +227,85 @@ AHOO.log).*?(?:;|\).*;|(?:\r?\n.*?)*?\).
 
 <section class="code happycat">
     <pre class="prettyprint">
-/* live
-var fooga = "oh god how did this get here I am not good with computers";
- /live */
-/* dev */
-var fooga = "";
-/* /dev */
-    </pre>
+/*  live
+var fooga = "oh god how did this get",
+    booga = "here I am not ";
+   /live */
+  
+/*  dev */
+var fooga = "good with",
+    booga = "computers";
+/* /dev */</pre>
+</section>
+
+<section class="code">
+    <pre class="prettyprint">
+/*  live */
+var fooga = "oh god how did this get",
+    booga = "here I am not ";
+/* /live */
+  
+/* dev
+var fooga = "good with",
+    booga = "computers";
+  /dev */</pre>
+    <aside>&amp; JS minification cleans it up</aside>
 </section>
 
 <section>
     <h2>Boring! What next?</h2>
-    <ul>
-        <li>DataURIs/MTHML generation</li>
-        <li>Automated Spriting</li>
-    </ul>
+</section>
+
+<section class="code">
+    <h2>CSSEmbed</h2>
+    <h3>Makes DataURIs fun &amp; easy!</h3>
+    <p>It's on <a href="https://github.com/nzakas/cssembed">GitHub</a></p>
+    <aside>Thanks Nicholas</aside>
 </section>
 
 <section>
-    <h2>I don't want to write Java</h2>
+    <pre class="prettyprint">
+&lt;cssembed root=".">
+  &lt;fileset 
+    dir="." 
+    includes="**/*.css" 
+  />
+&lt;/cssembed></pre>
+    <pre class="prettyprint">
+.r15bs { 
+  background: url(image.png);
+}</pre>
+</section>
+
+<section class="code overrun-r">
+    <pre class="prettyprint">
+.r15bs {
+  background: url("data:image/png;base64
+<span class="hide">");</span>}</pre>
+</section>
+
+<section class="code overrun-r overrun-l">
+    <pre class="prettyprint">
+<span class="hide">"</span>
+4,iVBORw0KGgoAAAANSUhEUgAAADQAAAAaCAYAAA</pre>
+</section>
+
+<section>
+    <h2>&hellip;</h2>
+    <h2>You get the idea</h2>
+</section>
+
+<section>
+    <h2>You could automate CSS sprite generation</h2>
+    <h3>But don't do that. Seriously.</h3>
+    <p>Use DataURIs, serve IE 6 &amp; 7 MHTML.</p>
+    <p>CSSEmbed will do it for you!</p>
+</section>
+
+<section>
+    <h2>Problem:</h2>
+    <h3>No tools for what I need<br />
+    &amp; I don't want to write Java</h3>
     <aside>I don't blame you!</aside>
 </section>
 
@@ -244,20 +314,139 @@ var fooga = "";
 </section>
 
 <section>
-    <h2>What does that get us?</h2>
+    <h2>So what.</h2>
+</section>
+
+<section>
+    <h2>Correction:</h2>
+    <h3>Ant can run JS that has full access to Java &amp Ant APIS!</h3>
+    <aside>Interested?</aside>
+</section>
+
+<section>
+    <h2>Inline small &lt;script>s</h2>
+    <!--
     <ul>
         <li>YUI config parsing/optimization</li>
         <li>&lt;script&gt; inlining</li>
         <li>Multiple &lt;script&gt; to combo-handled request</li>
     </ul>
+    -->
+</section>
+
+<section>
+    <pre class="prettyprint">
+&lt;script src="fooga.js">&lt;/script>
+&lt;/body>
+    </pre>
+    <pre class="prettyprint">
+&lt;script>var fooga = "wooga";&lt;/script>
+&lt;/body>
+    </pre>
+</section>
+
+<section>
+    <h2>Parse YUI config, intelligently replace file names</h2>
+</section>
+
+<section>
+    <pre class="prettyprint">/js/wooga.js=/js/wooga.12345.js</pre>
+    <pre class="prettyprint">
+<span class="nocode">&hellip;</span>        
+"base" : "/js/",
+"modules" : {
+    "wooga" : { 
+        "path" : "wooga.js", 
+        <span class="nocode">&hellip;</span> 
+    }
+}</pre>
+</section>
+
+<section>
+    <pre class="prettyprint">
+<span class="nocode">&hellip;</span>        
+"base" : "/js/",
+"modules" : {
+    "wooga" : { 
+        "path" : "wooga.12345.js", 
+        <span class="nocode">&hellip;</span> 
+    }
+}</pre>
+</section>
+
+<section>
+    <h2>Combine multiple &lt;script> &amp; &lt;link> blocks</h2>
+    <aside>COMBO HANDLING YAY</aside>
+</section>
+
+<section>
+    <pre class="prettyprint">
+&lt;link href="a.css" />
+&lt;link href="b.css" />
+&lt;link href="c.css" /></pre>
+    <pre class="prettyprint">
+&lt;link href="/combo?a.css&b.css&c.css" />
+</pre>
+</section>
+
+<section>
+    <pre class="prettyprint">
+&lt;script src="a.js" />
+&lt;script src="b.js" />
+&lt;script src="c.js" /></pre>
+    <pre class="prettyprint">
+&lt;script src="/combo?a.js&b.js&c.js" />
+</pre>
 </section>
 
 <section>
     <h2>Off the deep end</h2>
+    <!--
     <ul>
         <li>Generating Appcache manifest</li>
         <li>HTML Minification</li>
     </ul>
+    -->
+</section>
+
+<section>
+    <h2>Appcache manifest</h2>
+</section>
+
+<section>
+    <pre class="nice">
+/js
+    fooga.js
+    booga.js
+/css
+    wooga.css
+    looga.css
+/img
+    mooga.jpg
+    yooga.png
+    nooga.gif
+    </pre>
+</section>
+
+<section>
+    <pre class="prettyprint">
+CACHE MANIFEST
+# Generated 1/1/2011 at 6:05pm
+CACHE:
+js/fooga.js
+js/booga.js
+css/wooga.js
+css/looga.css
+img/mooga.jpg
+img/yooga.png
+img/nooga.gif
+    </pre>
+</section>
+
+<section>
+    <h2>HTML Minification</h2>
+    <h3>Probably not worth the hassle!</h3>
+    <p>But you could experiment with <br /> Kangax's <a href="https://github.com/kangax/html-minifier">HTML Minifier</a></p>
 </section>
 
 <section>
@@ -279,12 +468,44 @@ var fooga = "";
 <section>
     <h2>Buildy</h2>
     <h3>XML BOOOOOO JS YAYYYYYY</h3>
+    <h3><a href="https://github.com/mosen/buildy">github.com/mosen/buildy</a></h3>
+</section>
+
+<section class="code tiny">
+    <h3>Ant</h3>
+    <pre class="prettyprint">
+&lt;?xml version="1.0" encoding="iso-8859-1"?>
+&lt;project>
+  &lt;target name="js.remove.version">
+    &lt;replaceregexp flags="gs">
+      &lt;fileset 
+        dir="." 
+        includes="**/*.js" 
+      />
+      &lt;regexp pattern="@VERSION@" />
+      &lt;substitution expression="" />
+    &lt;/replaceregexp>
+  &lt;/target>
+&lt;/project></pre>
+</section>
+
+<section class="code">
+    <h3>Buildy</h3>
+    <pre class="prettyprint">
+var b = new Buildy();
+new Queue('remove @VERSION@')
+    .task('files', [ './**/*.js' ])
+    .task('replace', { 
+        regex : '@VERSION', 
+        replace : '', 
+        flags : 'gs'
+    })
+    .run(b);</pre>
 </section>
 
 <script src="js/util.js"></script>
 <script src="js/dz.js"></script>
 <script src="google-code-prettify/prettify.js"></script>
 <script>
-    //debugger;
     prettyPrint();
 </script>
