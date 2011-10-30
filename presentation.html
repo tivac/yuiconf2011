@@ -10,7 +10,7 @@
 
 <section>
     <h1>Automating Website Optimizations</h1>
-    <footer>Patrick Cavit (@tivac)</footer>
+    <footer>Patrick Cavit (<a href="http://twitter.com/tivac">@tivac</a>)</footer>
 </section>
 
 <section>
@@ -19,12 +19,21 @@
 </section>
 
 <section>
-    <h2>Automation lets you spend more time creating</h2>
+    <h2>Why use a build tool?</h2>
+    <h3>Automate the boring stuff, so you can spend more time creating things</h3>
 </section>
 
 <section>
-    <h2>There are a lot of build tools</h2>
-    <h3>Choose the right one<br /> for your needs</h3>
+    <h2>Hard to dev with optimized code</h2>
+    <h3>But fast sites are<br /> <strong>SUPER IMPORTANT</strong></h3>
+</section>
+
+<section>
+    <h2>There are a lot of build tools out there</h2>
+</section>
+
+<section>
+    <h2>Choose the right one</h2>
 </section>
 
 <section>
@@ -120,9 +129,12 @@
 
 <section>
     <h2>Cache-busting result</h2>
-    <pre class="nice">file.css</pre>
-    <h3>becomes</h3>
-    <pre class="nice">file.123456.css</pre>
+    <pre class="prettyprint">
+file.css
+
+// is renamed to
+
+file.123456.css</pre>
 </section>
 
 <section>
@@ -161,8 +173,7 @@ YAHOO.log).*?(?:;|\).*;|(?:\r?\n.*?)*?\
 </section>
 
 <section>
-    <h2>Regular Expressions, everybody.</h2>
-    <aside>LOLOLOLOLOLOL</aside>
+    <h2>Aren't Regular Expressions great?</h2>
 </section>
 
 <section>
@@ -202,7 +213,7 @@ var fooga = "good with",
 </section>
 
 <section>
-    <h3>Converting relative URLs to CDN-prefixed absolute URLs</h3>
+    <h2>Prefix relative URLs with CDN</h2>
     <h3>Way too many regexes,<br /> so see it on <a href="https://github.com/tivac/web-build/blob/master/cdn.xml">GitHub</a></p>
 </section>
 
@@ -313,7 +324,7 @@ var fooga = "good with",
 </section>
 
 <section>
-    <h2>So what.</h2>
+    <h2>JS is missing APIs to make that useful</h2>
 </section>
 
 <section>
@@ -373,8 +384,8 @@ files.forEach(function(f) { <span class="nocode">&hellip;</span> }</pre>
 </section>
 
 <section>
-    <h2>It's ugly.</h2>
-    <h3>But powerful!</h3>
+    <h2>I did warn you about the ugly.</h2>
+    <h3>At least it's powerful!</h3>
 </section>
 
 <section>
@@ -530,27 +541,31 @@ img/nooga.gif</pre>
 </section>
 
 <section class="code tiny">
-    <h3>Ant</h3>
     <pre class="prettyprint">
 &lt;?xml version="1.0" encoding="iso-8859-1"?>
 &lt;project>
-  &lt;target name="js.remove.version">
-    &lt;replaceregexp flags="gs">
-      &lt;fileset 
-        dir="." 
-        includes="**/*.js" 
-      />
-      &lt;regexp pattern="@VERSION@" />
-      &lt;substitution expression="" />
-    &lt;/replaceregexp>
-  &lt;/target>
+    &lt;target name="build">
+        &lt;replaceregexp flags="gs">
+            &lt;fileset 
+                dir="." 
+                includes="**/*.js" 
+            />
+            &lt;regexp pattern="@VERSION@" />
+            &lt;substitution expression="" />
+        &lt;/replaceregexp>
+    
+        &lt;concat destfile="./scripts.js">
+            &lt;fileset
+                dir="."
+                includes="**/*.js"
+            />
+        &lt;/concat>
+    &lt;/target>
 &lt;/project></pre>
 </section>
 
 <section class="code">
-    <h3>Buildy</h3>
     <pre class="prettyprint">
-var b = new Buildy();
 new Queue('remove @VERSION@')
     .task('files', [ './**/*.js' ])
     .task('replace', { 
@@ -558,7 +573,10 @@ new Queue('remove @VERSION@')
         replace : '', 
         flags : 'gs'
     })
-    .run(b);</pre>
+    .task('write', { 
+        name: "./scripts.js" 
+    })
+    .run(new Buildy());</pre>
 </section>
 
 <section>
