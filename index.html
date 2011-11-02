@@ -14,13 +14,12 @@
 </section>
 
 <section>
-    <h2>You are not a robot</h2>
-    <aside>I hope!</aside>
+    <h2>Why use a build tool?</h2>
 </section>
 
 <section>
-    <h2>Why use a build tool?</h2>
-    <h3>Automate the boring stuff, so you can spend more time creating things</h3>
+    <h2>Automate the boring repetitive parts</h2>
+    <h3>So you can spend more time creating things</h3>
 </section>
 
 <section>
@@ -29,7 +28,12 @@
 </section>
 
 <section>
-    <h2>There are a lot of build tools out there</h2>
+    <h2>SUPER.<br/>IMPORTANT.</h2>
+</section>
+
+<section>
+    <h2>Lots of build tool choices</h2>
+    <h3><a href="https://secure.wikimedia.org/wikipedia/en/wiki/List_of_build_automation_software">Wikipedia</a> lists 80+</h3>
 </section>
 
 <section>
@@ -85,14 +89,14 @@
 <section class="code">
     <h3>File Cleanup</h3>
     <pre class="prettyprint">
-&lt;replaceregexp flags="gs">
+&lt;replace
+    token="@VERSION@"
+    value="''">
     &lt;fileset
         dir="."
         includes="**/*.js"
     />
-    &lt;regexp pattern="@VERSION@" />
-    &lt;substitution expression="" />
-&lt;/replaceregexp></pre>
+&lt;/replace></pre>
 </section>
 
 <section class="code">
@@ -118,13 +122,13 @@
 </section>
 
 <section class="code">
-    <h3>Cache-busting</h3>
+    <h3>Cache-busting with FileTransform</h3>
     <pre class="prettyprint">
 &lt;rename-files
     include="**/*.css"
     mapping="css.mapping"
 /></pre>
-    <aside>Needs set up though</aside>
+    <aside>Some assembly required</aside>
 </section>
 
 <section>
@@ -138,7 +142,7 @@ file.123456.css</pre>
 </section>
 
 <section>
-    <h2>Remove debugging code</h2>
+    <h2>Remove any debugging code</h2>
 </section>
 
 <section class="code overrun-r">
@@ -178,7 +182,7 @@ YAHOO.log).*?(?:;|\).*;|(?:\r?\n.*?)*?\
 
 <section>
     <h2>ifdefs would be nice</h2>
-    <h3>We can do that</h3>
+    <aside>We can do that</aside>
 </section>
 
 <section class="code happycat">
@@ -205,11 +209,15 @@ var fooga = "oh god how did this get",
 var fooga = "good with",
     booga = "computers";
   /dev */</pre>
-    <aside>&amp; JS minification cleans it up</aside>
 </section>
 
 <section>
-    <h2>Boring! What next?</h2>
+    <h2>JS minification cleans up the mess</h2>
+</section>
+
+<section>
+    <h2>That's just the easy stuff</h2>
+    <h3>We can do better</h3>
 </section>
 
 <section>
@@ -225,11 +233,11 @@ var fooga = "good with",
 &lt;property name="font.suffix">(svg|eot|woff|ttf|svgz)&lt;/property>
 &lt;property name="js.yui">(base[^:]?:[^"']?["'])${base}&lt;/property>
 &lt;property name="js.src">(script[^>]src[^=]?=[^"']?["'])${base}${js.suffix}&lt;/property>
-&lt;property name="js.js" >(["'])${base}${js.suffix}&lt;/property>
-&lt;property name="css" >(href=["'])${base}(css)&lt;/property>
+&lt;property name="js.js">(["'])${base}${js.suffix}&lt;/property>
+&lt;property name="css">(href=["'])${base}(css)&lt;/property>
 &lt;property name="img.css">(url\(["']?)${base}${img.suffix}\)&lt;/property>
 &lt;property name="img.src">(img[^>]src[^=]?=[^"']?["'])${base}${img.suffix}&lt;/property>
-&lt;property name="img.js" >(["'])${base}${img.suffix}&lt;/property>
+&lt;property name="img.js">(["'])${base}${img.suffix}&lt;/property>
 &lt;property name="font">(url\(["']?)${base}${font.suffix}&lt;/property>
 &lt;property name="swf">(["'])${base}(swf)&lt;/property>
 &lt;macrodef name="cdn-replace">
@@ -256,7 +264,6 @@ var fooga = "good with",
             />
         &lt;/and>
     &lt;/condition></pre>
-    <aside>Had to try it</aside>
 </section>
 
 <section class="code">
@@ -389,6 +396,10 @@ files.forEach(function(f) { <span class="nocode">&hellip;</span> }</pre>
 </section>
 
 <section>
+    <h2>What can you<br /> use it for?</h2>
+</section>
+
+<section>
     <h2>Inline small &lt;script>s</h2>
 </section>
 
@@ -408,10 +419,12 @@ replace.execute();</pre>
 
 <section>
     <pre class="prettyprint">
+&lt;!-- original -->
 &lt;script src="fooga.js">&lt;/script>
 &lt;/body>
     </pre>
     <pre class="prettyprint">
+&lt;!-- inline-ified! -->
 &lt;script>var fooga = "wooga";&lt;/script>
 &lt;/body>
     </pre>
@@ -422,7 +435,7 @@ replace.execute();</pre>
 </section>
 
 <section>
-    <pre class="prettyprint">/js/wooga.js=/js/wooga.12345.js</pre>
+    <pre class="nice">/js/wooga.js=/js/wooga.12345.js</pre>
     <pre class="prettyprint">
 <span class="nocode">&hellip;</span>        
 "base" : "/js/",
@@ -472,16 +485,10 @@ replace.execute();</pre>
 
 <section>
     <h2>Off the deep end</h2>
-    <!--
-    <ul>
-        <li>Generating Appcache manifest</li>
-        <li>HTML Minification</li>
-    </ul>
-    -->
 </section>
 
 <section>
-    <h2>Appcache manifest</h2>
+    <h2>Appcache manifests</h2>
 </section>
 
 <section class="code">
@@ -524,7 +531,7 @@ img/nooga.gif</pre>
 </section>
 
 <section>
-    <h2>I don't want to write all of that</h2>
+    <h2>I don't want to<br /> write all of that</h2>
 </section>
 
 <section>
@@ -545,14 +552,14 @@ img/nooga.gif</pre>
 &lt;?xml version="1.0" encoding="iso-8859-1"?>
 &lt;project>
     &lt;target name="build">
-        &lt;replaceregexp flags="gs">
+        &lt;replace
+            token="@VERSION@"
+            value="''">
             &lt;fileset 
                 dir="." 
                 includes="**/*.js" 
             />
-            &lt;regexp pattern="@VERSION@" />
-            &lt;substitution expression="" />
-        &lt;/replaceregexp>
+        &lt;/replace>
     
         &lt;concat destfile="./scripts.js">
             &lt;fileset

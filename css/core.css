@@ -19,5 +19,5 @@ section[aria-selected] { pointer-events: auto; }
 html { overflow: hidden; }
 body { display: none; }
 body.loaded { display: block; }
-.incremental {visibility: hidden; }
-.incremental[active] {visibility: visible; }
+.incremental { visibility: hidden; }
+.incremental[active] { visibility: visible; }
